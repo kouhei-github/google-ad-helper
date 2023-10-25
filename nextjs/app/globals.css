@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .header {
+        @apply w-full text-center border-b-2 border-[#F1F1F3]
+    }
+
+    .copy-right {
+        @apply h-[114px] flex items-center justify-center text-[11px] text-[#012] tracking-wide border-t-2 border-[#F1F1F3]
+    }
+}

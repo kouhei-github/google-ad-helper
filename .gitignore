@@ -218,4 +218,3 @@ containers/db/*
 python/static
 venv
 .env
-/python/google-ads-api.yaml

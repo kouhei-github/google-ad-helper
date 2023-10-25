@@ -17,6 +17,13 @@ async def search_volume(
     # db: Session = Depends(get_db),
     # get_bearer_token: TokenDataSchema = Depends(get_current_bearer_token)
 ):
+    """
+    Args：
+        body (SearchWordRequestSchema)： 検索語を含むリクエストボディ。
+
+    戻り値
+        List[SearchVolumeSchema]： 検索ボリュームレスポンスのリスト。
+    """
     googleAdsFacade = GoogleAdvertisementSearchWordFacade("9082161719",[2392],1005)
     keyword_ideas = googleAdsFacade.get_keyword_volume_request([body.search_word])
 

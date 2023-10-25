@@ -14,7 +14,7 @@ seo_route = APIRouter(
 @seo_route.post("/", response_model=List[SearchVolumeSchema])
 async def search_volume(
     body: SearchWordRequestSchema,
-    db: Session = Depends(get_db),
+    # db: Session = Depends(get_db),
     # get_bearer_token: TokenDataSchema = Depends(get_current_bearer_token)
 ):
     googleAdsFacade = GoogleAdvertisementSearchWordFacade("9082161719",[2392],1005)

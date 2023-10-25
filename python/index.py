@@ -5,6 +5,7 @@ from routes.index import (
     auth,
     health_check,
     user,
+    seo_route,
 )
 
 from config.index import Base, engine
@@ -27,3 +28,4 @@ handler = Mangum(app)
 app.include_router(auth)
 app.include_router(health_check)
 app.include_router(user)
+app.include_router(seo_route)

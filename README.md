@@ -179,6 +179,18 @@ zip -r layer.zip python
 
 ## 公式ドキュメント
 [FastApiの公式ドキュメント](https://fastapi.tiangolo.com/reference/apirouter/#fastapi.APIRouter.post)<br>
-[FastApiの公式ドキュメント](https://fastapi.tiangolo.com/reference/apirouter/#fastapi.APIRouter.post)<br>
 
 
+### 11. 記事を自動で書かせるためのプロンプト
+
+```text
+あなたはマークダウン記法でサイトを記述するプロフェッショナルです。
+iPhone X 2022について記事を書いてください。
+その際下記を厳守して記事を書いてください。
+
+・記事は7000文字以上にすること
+・SEOを意識すること
+・マークダウン形式で記述すること
+・読みやすい、見やすい記述にすること
+```
+---

@@ -20,6 +20,12 @@ class GoogleAdvertisementConfig:
 
     """
     def __init__(self):
+        """
+        インスタンスを初期化し、GoogleAdsClientと各サービス、列挙型を作成します。
+
+        初期化時には、環境変数からOAuth2認証情報を取得します。
+        """
+        # 環境変数から認証情報を取得します。
         credentials = {
             "developer_token": os.environ["GOOGLE_AD_API_DEVELOPER_TOKEN"],
             "refresh_token": os.environ["GOOGLE_REFRESH_TOKEN"],
@@ -27,11 +33,20 @@ class GoogleAdvertisementConfig:
             "client_secret": os.environ["GOOGLE_OAUTH2_SECRET"],
             "use_proto_plus": False
         }
+
+        # GoogleAdsClientを作成します。
+        # Google Ads APIのバージョンはv15です。
         self.googleads_client = GoogleAdsClient.load_from_dict(credentials, version="v15")
+
+        # KeywordPlanIdeaServiceを使えるように設定します。
         self.keyword_plan_idea_service = self.googleads_client.get_service("KeywordPlanIdeaService")
+
+        # 広告ネットワーク設定を行います。デフォルトでは、Google SearchおよびSearch Partnersに設定します。
         self.keyword_plan_network = (
             self.googleads_client.enums.KeywordPlanNetworkEnum.GOOGLE_SEARCH_AND_PARTNERS
         )
+
+        # KeywordPlanCompetitionLevelEnumのインスタンスを取得します。
         self.keyword_competition_level_enum = self.googleads_client.get_type(
             "KeywordPlanCompetitionLevelEnum"
         ).KeywordPlanCompetitionLevel
@@ -39,15 +54,19 @@ class GoogleAdvertisementConfig:
 
     def map_locations_ids_to_resource_names(self, location_ids: List[int]) -> List[str]:
         """
-        ロケーションIDのリストをリソース名に変換する。
-        引数
-            client (GoogleAdsClient): 初期化済みの GoogleAdsClient のインスタンス。
-            location_ids (List[int]): ロケーション ID 文字列のリスト。
+        この関数は、GoogleAdsClientを使って指定されたロケーションIDのリストをリソース名のリストに変換します。
 
-        戻り値
-            リソース名の文字列のリスト。
+        Arguments:
+        location_ids (List[int])： Google Ads の地域ターゲティングのIDのリスト。
+
+        Returns:
+        List[str]: ロケーションIDそれぞれに対応するリソース名のリスト。
         """
+        # GeoTargetConstantServiceをセットアップします。
+        # これを使用して、地理的なターゲットの常数を取得します。
         build_resource_name = self.googleads_client.get_service(
             "GeoTargetConstantService"
         ).geo_target_constant_path
+
+        # ロケーション ID のリストをリソース名のリストに変換します。
         return [build_resource_name(location_id) for location_id in location_ids]

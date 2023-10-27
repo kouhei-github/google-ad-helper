@@ -4,6 +4,7 @@ from config.index import get_db
 from sqlalchemy.orm import Session
 from services.google.advertisement.search_word import GoogleAdvertisementSearchWordFacade
 from schemas.index import SearchVolumeSchema, SearchWordRequestSchema
+from services.openai.gpt.model import GPTModelFacade
 
 
 seo_route = APIRouter(
@@ -54,4 +55,29 @@ async def search_volume(
 
     # 検索ボリュームデータのリストをリターンします。
     return result
+
+
+
+@seo_route.get("/create_letter", response_model=Dict[str,str])
+async def search_volume(
+        word: str=None,
+        # db: Session = Depends(get_db),
+        # get_bearer_token: TokenDataSchema = Depends(get_current_bearer_token),
+        # 上記の2行は現在コメントアウトされていますが、必要に応じてデータベースセッションとベアラートークンの取得を行うために使用できます。
+):
+    """
+    Args：
+        word (str)：文章を作成したいキーワード
+
+    戻り値
+        Dict[str,str]： 実行結果。
+    """
+    # GPTModelFacadeクラスのインスタンスを作成します。
+    model = GPTModelFacade()
+
+    # 指定されたwordに基づいて対話タスクを行い、その結果を取得します。
+    result = model.listen_prompt(word)
+
+    # 対話の結果を含むディクショナリを返します。
+    return {"query": result}
 

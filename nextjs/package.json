@@ -26,6 +26,9 @@
     "eslint-config-next": "latest",
     "postcss": "latest",
     "tailwindcss": "latest",
-    "typescript": "latest"
+    "typescript": "latest",
+    "zenn-content-css": "^0.1.131",
+    "zenn-markdown-html": "^0.1.131",
+    "zenn-embed-elements": "^0.1.131"
   }
 }

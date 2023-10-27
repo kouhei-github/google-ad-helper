@@ -1,8 +1,10 @@
 import './globals.css'
+import 'zenn-content-css';
 import type { Metadata } from 'next'
 import Header from '@/components/Dashboard/Header'
 import Footer from '@/components/Dashboard/Footer'
 import {UserProvider} from '@/components/Providers/UserProvider'
+import 'zenn-content-css';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -14,14 +16,15 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+
   return (
     <html lang="ja">
-      <body className={""}>
-        <UserProvider>
-          <Header />
-          {children}
-          <Footer />
-        </UserProvider>
+    <body className={""}>
+     <UserProvider>
+        <Header />
+        {children}
+        <Footer />
+      </UserProvider>
       </body>
     </html>
   )

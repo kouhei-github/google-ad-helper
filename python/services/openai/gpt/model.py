@@ -23,7 +23,7 @@ class GPTModelFacade(PromptSetting):
 
 
     @classmethod
-    def listen_prompt(cls, prompt: str) -> str:
+    async def listen_prompt(cls, prompt: str) -> str:
         # OpenAIのキーを設定
         openai.api_key = cls.api_key
 

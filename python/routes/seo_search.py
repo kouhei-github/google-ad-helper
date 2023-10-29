@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from services.google.advertisement.search_word import GoogleAdvertisementSearchWordFacade
 from schemas.index import SearchVolumeSchema, SearchWordRequestSchema
 from services.openai.gpt.model import GPTModelFacade
+from services.google.spread_sheet.spread_sheet_facade import SpreadSheetFacade
 
 
 seo_route = APIRouter(
@@ -58,12 +59,12 @@ async def search_volume(
 
 
 
-@seo_route.get("/create_letter", response_model=Dict[str,str])
+@seo_route.get("/create_letter", response_model=Dict[str,str])  # create_letterエンドポイントにGETリクエストをルーティングします。レスポンスモデルとして辞書形式（キーと値が両方とも文字列）を指定しています。
 async def search_volume(
-        word: str=None,
-        # db: Session = Depends(get_db),
-        # get_bearer_token: TokenDataSchema = Depends(get_current_bearer_token),
-        # 上記の2行は現在コメントアウトされていますが、必要に応じてデータベースセッションとベアラートークンの取得を行うために使用できます。
+        word: str=None,  # word引数は、作成する文章のキーワードを指定するためのものです。デフォルトではNoneを指定します。
+
+        # db: Session = Depends(get_db),  # この行は現在コメントアウトされていますが、データベースセッションを取得するための依存関係を指定するためのものです。この依存関係は、データベースとのインタラクションが必要な場合にコメントアウトを外して使用します。
+        # get_bearer_token: TokenDataSchema = Depends(get_current_bearer_token),  # この行は現在コメントアウトされていますが、ベアラートークンを取得するための依存関係を指定するためのものです。この依存関係は、認証が必要な場合にコメントアウトを外して使用します。
 ):
     """
     Args：
@@ -72,12 +73,21 @@ async def search_volume(
     戻り値
         Dict[str,str]： 実行結果。
     """
-    # GPTModelFacadeクラスのインスタンスを作成します。
+    # GPTModelFacadeクラスのインスタンスを作成します。このクラスは、GPTモデルとのインタラクションを簡単に行うためのクラスです。
     model = GPTModelFacade()
 
-    # 指定されたwordに基づいて対話タスクを行い、その結果を取得します。
-    result = model.listen_prompt(word)
+    # listen_promptメソッドは、与えられたキーワードに基づいてGPTモデルから文章を生成し、その結果を返します。
+    result = await model.listen_prompt(word)
 
-    # 対話の結果を含むディクショナリを返します。
-    return {"query": result}
+    # SpreadSheetFacadeクラスのインスタンスを作成します。このクラスは、Googleスプレッドシートとのインタラクションを簡単に行うためのクラスです。
+    spread_facade = SpreadSheetFacade("1mjk98TSpRJ2ixsYfJ5rp4Zw0Pr8EeDV_YNS5VdO4jnM", "write")
+
+    # get_valuesメソッドで"SEO"シートの値を取得します。ただし、この値は実際には使用されていません（結果を"_"に代入することで明示的に無視しています）。
+    _ = spread_facade.get_values("SEO")
+
+    # write_sheetメソッドで"SEO"シートにキーワードと結果のリストを書き込みます。
+    await spread_facade.write_sheet("SEO", [[word, result]])
+
+    # "query": "Create"というキーと値のペアを含むディクショナリを返します。これがこの関数の返り値です。
+    return {"query": "Create"}
 

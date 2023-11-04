@@ -45,14 +45,14 @@ class SpreadSheetFacade(GoogleSpreadSheetConfig):
         self.last_col_num = None
         self.last_row_alpha = None
 
-    def write_sheet(self, sheet_name: str, values: List[List[str]]):
+    async def write_sheet(self, sheet_name: str, values: List[List[str]]):
         """
         引数
             sheet_name (str)： データが書き込まれるシートの名前。
             values (List[List[str]])： スプレッドシートに書き込まれる値。各内部リストはスプレッドシートの行を表す。
 
         """
-        spread_sheet_range = f'{sheet_name}!A{self.last_col_num}:{self.last_row_alpha}{self.last_col_num}'
+        spread_sheet_range = f'{sheet_name}!A{self.last_col_num}:{self.last_row_alpha}{self.last_col_num + len(values) - 1}'
         print(spread_sheet_range)
         self.sheet.values().update(
             spreadsheetId=self.spread_id,

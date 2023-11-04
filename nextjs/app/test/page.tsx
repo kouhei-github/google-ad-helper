@@ -9,7 +9,7 @@ import Link from "next/link";
 
 export default function Home() {
 
-  const {article, isError, isLoading} = useGetArticle(3)
+  const {article, isError, isLoading} = useGetArticle(6)
   useEffect(() => {
     import('zenn-embed-elements');
   }, []);

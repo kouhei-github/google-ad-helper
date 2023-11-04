@@ -8,3 +8,6 @@ class SearchVolume(BaseModel):
 
 class SearchWordRequest(BaseModel):
     search_word: str
+
+class ShowArticleResponse(BaseModel):
+    description: str

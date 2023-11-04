@@ -15,7 +15,8 @@
     "react-dom": "latest",
     "react-loading-skeleton": "^3.3.1",
     "react-redux": "^8.1.3",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "swr": "^2.2.4"
   },
   "devDependencies": {
     "@types/node": "latest",
@@ -28,7 +29,7 @@
     "tailwindcss": "latest",
     "typescript": "latest",
     "zenn-content-css": "^0.1.131",
-    "zenn-markdown-html": "^0.1.131",
-    "zenn-embed-elements": "^0.1.131"
+    "zenn-embed-elements": "^0.1.131",
+    "zenn-markdown-html": "^0.1.131"
   }
 }

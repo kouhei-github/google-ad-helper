@@ -26,14 +26,16 @@ class GetArticlesInDevTo:
     """
 
     # dev.toの最新記事ページのURLをクラス属性として設定します。
-    url = "https://dev.to/latest"
+
 
     # クラスのインスタンス化時に、ページのHTMLコンテンツを格納するための空のプロパティニを作成します。
-    def __init__(self):
+    def __init__(self, url: str):
+        self.url = url
+        self.json = [{}]
         self.html = ""
 
     # 指定されたURLから最新の記事を取得するメソッドを定義します。 その結果をインスタンス属性のhtmlに格納します。
-    def get_latest_article(self):
+    def get_article(self):
         """
         指定されたURLから最新の記事を取得する。
 
@@ -43,13 +45,13 @@ class GetArticlesInDevTo:
 
         """
         payload = {}
-        headers = {}
+        headers = {"Content-Type": "application/json"}
 
         # requestsライブラリを使用してGETリクエストを送信し、その結果を受け取ります。
         response = requests.request("GET", self.url, headers=headers, data=payload)
 
         # レスポンスの本文（HTML）を保存します。
-        self.html = response.text
+        self.json = response.json()
 
 
     # 特定の属性をHTMLコンテンツから抽出するためのメソッドを定義します。これは、開始と終了文字列の間の内容をリスト形式で返します。

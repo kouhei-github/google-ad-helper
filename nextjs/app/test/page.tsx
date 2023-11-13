@@ -5,11 +5,13 @@ import {useEffect} from "react";
 import 'zenn-content-css';
 import {useGetArticle} from "@/utils/api/article_fetch";
 import Link from "next/link";
+import {useSearchParams} from "next/navigation";
 
 
 export default function Home() {
+  const searchParams = useSearchParams()
 
-  const {article, isError, isLoading} = useGetArticle(6)
+  const {article, isError, isLoading} = useGetArticle(searchParams.get("page") === null ? 1 : Number(searchParams.get("page")) )
   useEffect(() => {
     import('zenn-embed-elements');
   }, []);

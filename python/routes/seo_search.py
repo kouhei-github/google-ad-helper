@@ -129,4 +129,4 @@ async def get_article_making_gpt(article_id: int):
     if len(articles) < article_id or article_id == 0:
         return responses.JSONResponse(content="Not Found", status_code=404)
 
-    return ShowArticleResponseSchema(description=articles[article_id][1])
+    return ShowArticleResponseSchema(description=articles[article_id][2])

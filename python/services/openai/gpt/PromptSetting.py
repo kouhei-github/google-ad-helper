@@ -21,3 +21,31 @@ class PromptSetting:
         """
 
         return prompt
+
+    @staticmethod
+    def create_markdown_prompt(keyword: str) -> str:
+        prompt = """
+        あなたはマークダウン記法でサイトを記述するプロフェッショナルです。
+        また、英語と日本語の相互の変換が得意です。
+        """
+
+        prompt += f'下記英語の記事を日本語に変換してください。'
+
+        prompt += """
+        その際下記を厳守して記事を書いてください。
+        マークダウンのコードブロック内の言語を判別して、記載すること。
+        (例):
+        ```python
+        print("test")
+        ```
+        日本語に翻訳した際、話し言葉でわかりやすい日本語で翻訳してください。
+
+        以上を参考に下記を変換してください。
+
+
+        記事:
+        """
+
+        prompt += keyword
+
+        return prompt

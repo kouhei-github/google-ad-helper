@@ -71,10 +71,11 @@ async def get_dev_to_latest_articles(
             title = match.group(1)
 
         article_model = Article(
-            story=answer.replace(" - DEVコミュニティ", ""),
+            story=answer.replace(" - DEVコミュニティ", "").replace(" - DEV Community", ""),
             description=article.get("description", ""),
             title=title,
             dev_to_id=article.get("id", ""),
+            og_image_url=article.get("social_image", "https://thepracticaldev.s3.amazonaws.com/i/6hqmcjaxbgbon8ydw93z.png")
         )
 
         # タグのデータと記事のデータをDBに入れる
@@ -148,7 +149,7 @@ async def get_dev_to_popular_articles(
             title = match.group(1)
 
         article_model = Article(
-            story=answer.replace(" - DEVコミュニティ", ""),
+            story=answer.replace(" - DEVコミュニティ", "").replace(" - DEV Community", ""),
             description=article.get("description", ""),
             title=title,
             dev_to_id=article.get("id", ""),
@@ -226,10 +227,11 @@ async def get_dev_to_popular_articles(
             title = match.group(1)
 
         article_model = Article(
-            story=answer.replace(" - DEVコミュニティ", ""),
+            story=answer.replace(" - DEVコミュニティ", "").replace(" - DEV Community", ""),
             description=article.get("description", ""),
             title=title,
             dev_to_id=article.get("id", ""),
+            og_image_url=article.get("social_image", "https://thepracticaldev.s3.amazonaws.com/i/6hqmcjaxbgbon8ydw93z.png")
         )
         # タグのデータと記事のデータをDBに入れる
         for tag_name in article.get("tag_list", [""]):

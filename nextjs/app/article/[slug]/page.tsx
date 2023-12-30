@@ -22,7 +22,7 @@ export async function generateStaticParams() {
   })
 }
 
-async function getArticle(articleId: number): Promise<articleI&{latest: {title: string, id: number}[]}> {
+async function getArticle(articleId: number): Promise<articleI&{latest: {title: string, id: number, ogp_image: string}[]}> {
   let res  = await fetch(
     `${process.env.NEXT_PUBLIC_API_SERVER_URL}/article/show/${articleId}`,
     {next: {revalidate: false}}
@@ -39,7 +39,7 @@ async function getArticle(articleId: number): Promise<articleI&{latest: {title: 
 
   if (!res.ok) throw new Error("failed to fetch wine")
 
-  const latest = {latest: await res.json() as {id: number, title: string}[]}
+  const latest = {latest: await res.json() as {id: number, title: string, ogp_image: string}[]}
 
   return { ...article, ...latest }
 }

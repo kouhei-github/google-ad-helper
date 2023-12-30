@@ -19,7 +19,7 @@ article = APIRouter(
 async def get_article_latest(db: Session = Depends(get_db)):
     articles = db.query(Article).all()
 
-    articles = [ShowArticleResponseSchema(id=article.id, description=article.description,story=article.story,title=article.title,tags=[tag.name for tag in article.tags]) for article in articles]
+    articles = [ShowArticleResponseSchema(ogp_image=article.og_image_url, id=article.id, description=article.description,story="",title=article.title,tags=[tag.name for tag in article.tags]) for article in articles]
 
     return articles
 
@@ -32,7 +32,7 @@ async def get_article_latest(db: Session = Depends(get_db)):
 async def get_article_latest(db: Session = Depends(get_db)):
     articles = db.query(Article).order_by(Article.created_at.desc()).limit(10).all()
 
-    articles = [ShowArticleResponseSchema(id=article.id, description=article.description,story=article.story,title=article.title,tags=[tag.name for tag in article.tags]) for article in articles]
+    articles = [ShowArticleResponseSchema(ogp_image=article.og_image_url, id=article.id, description=article.description,story="",title=article.title,tags=[tag.name for tag in article.tags]) for article in articles]
 
     return articles
 
@@ -49,6 +49,7 @@ async def get_article_making_gpt(article_id: int, db: Session = Depends(get_db),
         return responses.JSONResponse(content="Not Found", status_code=404)
 
     return ShowArticleResponseSchema(
+        ogp_image=article.og_image_url,
         id=article.id,
         description=article.description,
         story=article.story,

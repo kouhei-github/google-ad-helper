@@ -15,4 +15,5 @@ class ShowArticleResponse(BaseModel):
     story: str
     description: str
     title: str
+    ogp_image: str
     tags: List[str]

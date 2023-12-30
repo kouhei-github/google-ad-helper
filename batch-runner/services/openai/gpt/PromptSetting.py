@@ -32,14 +32,42 @@ class PromptSetting:
 
         prompt += """
         その際下記を厳守して記事を書いてください。
-        1. マークダウンのコードブロック内のプログラミン言語を判別して、記載すること。
-        (例):
+        1. 日本語に翻訳した際、話し言葉でわかりやすい日本語で翻訳してください。
+
+        2. コードブロック内のプログラミン言語を判別する以外は、記事の内容を翻訳するだけで、あなたの言葉を入れないでください。(翻訳するだけに集中してください)
+
+        3. マークダウンのコードブロック内のプログラミン言語を判別して、記載してください。
+        (例: pythonの場合)
         ```python
         print("article")
         ```
-        2. 日本語に翻訳した際、話し言葉でわかりやすい日本語で翻訳してください。
 
-        3. 記事の内容を翻訳するだけで、あなたの言葉を入れないでください。(翻訳するだけに集中してください)
+        (例: rubyの場合)
+        ```ruby
+        def call(order:)
+        Some(order.product.stock == 0).filter.to_result(:out_of_stock)
+        end
+        ```
+
+        (例: phpの場合)
+        ```php
+        class YourModele extends Model
+        {
+            protected $fillable = ['*'];
+        }
+        ```
+
+        (例: goの場合)
+        ```go
+        package main
+
+        import "net/http"
+
+        func main() {
+            http.ListenAndServe(":9000", nil)
+        }
+        ```
+
         以上を参考に下記を変換してください。
 
         """

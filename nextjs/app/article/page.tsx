@@ -1,70 +1,95 @@
 'use client'
-import markdownHtml from 'zenn-markdown-html';
-import Script from "next/script";
-import {useEffect} from "react";
-import 'zenn-content-css';
-import {useGetArticle} from "@/utils/api/article_fetch";
+import {useEffect, useState} from "react";
 import Link from "next/link";
-import {useSearchParams} from "next/navigation";
 
+type response = {
+  id: number
+  story: string
+  description: string
+  title: string
+  ogp_image: string
+  tags: string[]
+}
+
+
+const tags = ["vue", "golang", "javascript", "ai", "python", "docker","laravel","node", "ruby", "swift", "react", "github"]
 
 export default function Home() {
-  const searchParams = useSearchParams()
+  const [article, setArticle] = useState<response[]>([{
+    id: 1, story: "", description: "", title: "", ogp_image: "", tags: [""]
+  }])
 
-  const {article, isError, isLoading} = useGetArticle(searchParams.get("page") === null ? 1 : Number(searchParams.get("page")) )
+  const [page, setPage] = useState<number>(1)
   useEffect(() => {
-    import('zenn-embed-elements');
-  }, []);
-  if (isError) return <div>load is Failed</div>
-  if (isLoading) return <div>Loadin ...</div>
-  if (typeof article === "undefined") return <div>load is Failed</div>
-  const html = markdownHtml(article.story);
+    const fetcher = async () => {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/article/all?page=${page}`)
+      const result = await res.json() as Promise<response[]>
+      setArticle(await result)
+    }
+    fetcher()
+  }, [page]);
+
+  const prev = () => {
+    if (page == 1) return
+    setPage(page-1)
+  }
+
+  const next = () => {
+    if(article.length === 0) return
+    setPage(page+1)
+  }
+
   return (
-    <main className={"w-11/12 md:w-[100%] mx-auto  my-12 flex space-x-8 "}>
-      <Script src={"https://embed.zenn.studio/js/listen-embed-event.js"}/>
-      <section
-        // "znc"というクラス名を指定する
-        className="znc md:w-[75%] w-[100%] bg-[#FFFFFF] p-8 rounded-xl"
-        // htmlを渡す
-        dangerouslySetInnerHTML={{
-          __html: html,
-        }}
-      />
+    <main className={"w-[100%] mx-auto my-12 "}>
 
-      <section className={"w-[25%] md:block hidden min-h-screen space-y-4"}>
-        <div className={"w-[300px] h-[275px] bg-white rounded-xl overflow-y-scroll px-4 pb-5"}>
-          <h3 className={"font-bold text-xl text-center my-6 border-b-2 border-gray-200"}>タグ</h3>
-          <div className={"space-y-3"}>
-            {article.tags.map((tag, index) => (
-              <div key={index} className={"underline underline-offset-2 text-blue-500 hover:text-blue-700"}>
-                <Link href={`/tags/${tag}`}>
-                  {tag}に関連する記事
-                </Link>
-              </div>
+      <div className="relative">
+        <img className="h-[320px] w-full object-cover" src="/images/background-programming.webp" alt="ビギナー画像"/>
+        <div className="absolute top-0 h-[320px] bg-black w-full opacity-60"></div>
+        <div className="absolute top-1/2 transform -translate-y-1/2 left-1/2-translate-x-1/2 text-center text-white w-full mx-auto">
+          <h2 className="md:text-[32px] text-[18px]">
+            <span className="text-[#4DABF7]">"プログラミング"</span>に関する記事
+          </h2>
+          <div className="md:text-[16px] text-[13px] leading-8 md:w-full w-11/12 mx-auto">
+            <p>プログラミングに困ったらこちらの記事はチェックしてみましょう。</p>
+            <p>プログラミングサイトとして最大級であるdev.toの記事を日本語でまとめています。</p>
+          </div>
+          <div className="my-5 md:w-2/3 w-full mx-auto grid md:grid-cols-6 grid-cols-4 gap-3">
+            {tags.map((tag, index) => (
+              <Link href={`/tags/${tag}/`} className="w-max mx-auto" key={index}>
+                <p className="text-center bg-[#228BE6] text-white rounded-full md:text-[12px] text-[9px] px-2 py-1"># {tag}</p>
+              </Link>
             ))}
           </div>
+
         </div>
-
-        {/*<div className={"w-[300px] h-[275px] bg-white rounded-xl overflow-y-scroll px-4 pb-5"}>*/}
-        {/*  <h3 className={"font-bold text-xl text-center my-6 border-b-2 border-gray-200"}>おすすめの記事</h3>*/}
-        {/*  <div className={"space-y-3"}>*/}
-        {/*    {[{title: "ruby on rails", link: "#"}, {title: "about Python", link: "#"}].map((url, index) => (*/}
-        {/*      <div key={index} className={"underline underline-offset-2 text-blue-500 hover:text-blue-700"}>*/}
-        {/*        <Link href={url.link}>{url.title}</Link>*/}
-        {/*      </div>*/}
-        {/*    ))}*/}
-        {/*  </div>*/}
-        {/*</div>*/}
-
-        <div className={"w-[300px] h-[405px] bg-white rounded-xl overflow-y-scroll px-4 pb-5 sticky top-10"}>
-          <h3 className={"font-bold text-xl text-center my-6 border-b-2 border-gray-200"}>新着の記事</h3>
-          <div className={"space-y-3"}>
-            {[{title: "ruby on rails", link: "#"}, {title: "about Python", link: "#"}].map((url, index) => (
-              <div key={index} className={"underline underline-offset-2 text-blue-500 hover:text-blue-700"}>
-                <Link href={url.link}>{url.title}</Link>
+      </div>
+      <h2 className={"text-center md:text-2xl text-[17px] md:my-6 my-2 bg-white py-3"}>記事一覧</h2>
+      <section className={"md:grid-cols-3 md:grid md:gap-2.5"}>
+        {article.map((data, index) => (
+          <div key={index} className={"border my-4 md:my-0  bg-white"}>
+            <div key={index} className={"py-2"}>
+              <img src={data.ogp_image} alt={"画像"} className={"w-[98%] mx-auto h-[125px] object-cover"}/>
+              <div className={"grid grid-cols-2 gap-x-2 gap-y-1"}>
+                {data.tags.map((tag, index) => (
+                  <Link href={`/tags/${tag}`} key={index} className={"text-sm mx-auto text-left"}>
+                    <span className={"text-green-400 mr-1"}>#</span>{tag}
+                  </Link>
+                ))}
               </div>
-            ))}
+
+              <Link href={`/article/${data.id}`}
+                    className={"underline underline-offset-2 text-blue-500 hover:text-blue-700"}>{data.title}</Link>
+            </div>
           </div>
+        ))}
+      </section>
+      <section className={"flex items-center justify-center space-x-5 bg-white py-2 mt-5"}>
+        <div className={"border px-3 py-2 cursor-pointer md:hover:bg-purple-200 md:hover:text-purple-500"}
+             onClick={() => prev()}>前へ
+        </div>
+        <div className={"px-3 py-2"}>{page}</div>
+        <div className={"border px-3 py-2 cursor-pointer md:hover:bg-purple-200 md:hover:text-purple-500"}
+             onClick={() => next()}>次へ
         </div>
       </section>
     </main>

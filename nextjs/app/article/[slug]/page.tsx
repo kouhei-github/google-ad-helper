@@ -22,7 +22,7 @@ export async function generateStaticParams() {
   })
 }
 
-async function getArticle(articleId: number): Promise<articleI&{latest: {title: string, id: number, ogp_image: string}[]}> {
+async function getArticle(articleId: number): Promise<articleI&{latest: {title: string, id: number, ogp_image: string, tags: string[]}[]}> {
   let res  = await fetch(
     `${process.env.NEXT_PUBLIC_API_SERVER_URL}/article/show/${articleId}`,
     {next: {revalidate: false}}
@@ -39,7 +39,7 @@ async function getArticle(articleId: number): Promise<articleI&{latest: {title: 
 
   if (!res.ok) throw new Error("failed to fetch wine")
 
-  const latest = {latest: await res.json() as {id: number, title: string, ogp_image: string}[]}
+  const latest = {latest: await res.json() as {id: number, title: string, ogp_image: string, tags: string[]}[]}
 
   return { ...article, ...latest }
 }
@@ -49,18 +49,18 @@ const  JobDetailPage = async ({params: { slug }}: {params: {slug: number}}) => {
   const article = await getArticle(slug)
   const html = markdownHtml(article.story);
   return (
-    <main className={"w-11/12 md:w-[100%] mx-auto  my-12 flex space-x-8 "}>
+    <main className={"w-[98%] md:w-[100%] mx-auto  my-12 flex md:flex-row flex-col md:space-x-8 space-y-5 md:space-y-0"}>
       <Script src={"https://embed.zenn.studio/js/listen-embed-event.js"}/>
       <section
         // "znc"というクラス名を指定する
-        className="znc md:w-[75%] w-[100%] bg-[#FFFFFF] p-8 rounded-xl"
+        className="znc md:w-[75%] w-[100%] bg-[#FFFFFF] md:p-8 p-0 rounded-xl"
         // htmlを渡す
         dangerouslySetInnerHTML={{
           __html: html,
         }}
       />
 
-      <section className={"w-[25%] md:block hidden min-h-screen space-y-4"}>
+      <section className={"md:w-[25%] w-full mx-auto h-full md:min-h-screen space-y-4"}>
         <Tag tags={article.tags} title={"タグ"} />
 
         <Latest links={article.latest} title={"最新の記事"} />

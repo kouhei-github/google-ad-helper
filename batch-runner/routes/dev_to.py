@@ -71,7 +71,7 @@ async def get_dev_to_latest_articles(
             title = match.group(1)
 
         article_model = Article(
-            story=answer.replace(" - DEVコミュニティ", "").replace(" - DEV Community", ""),
+            story=answer.replace(" - DEVコミュニティ", "").replace(" - DEV Community", "").replace("フルスクリーンモードに入る", ""),
             description=article.get("description", ""),
             title=title,
             dev_to_id=article.get("id", ""),
@@ -149,7 +149,7 @@ async def get_dev_to_popular_articles(
             title = match.group(1)
 
         article_model = Article(
-            story=answer.replace(" - DEVコミュニティ", "").replace(" - DEV Community", ""),
+            story=answer.replace(" - DEVコミュニティ", "").replace(" - DEV Community", "").replace("フルスクリーンモードに入る", ""),
             description=article.get("description", ""),
             title=title,
             dev_to_id=article.get("id", ""),
@@ -227,7 +227,7 @@ async def get_dev_to_popular_articles(
             title = match.group(1)
 
         article_model = Article(
-            story=answer.replace(" - DEVコミュニティ", "").replace(" - DEV Community", ""),
+            story=answer.replace(" - DEVコミュニティ", "").replace(" - DEV Community", "").replace("フルスクリーンモードに入る", ""),
             description=article.get("description", ""),
             title=title,
             dev_to_id=article.get("id", ""),

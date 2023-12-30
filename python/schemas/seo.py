@@ -1,3 +1,4 @@
+from typing import List
 from pydantic import BaseModel
 
 class SearchVolume(BaseModel):
@@ -10,4 +11,7 @@ class SearchWordRequest(BaseModel):
     search_word: str
 
 class ShowArticleResponse(BaseModel):
+    story: str
     description: str
+    title: str
+    tags: List[str]

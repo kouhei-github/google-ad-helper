@@ -3,9 +3,51 @@ version: "3.9"
 
 # db(MySQL),app(Django)のコンテナを作成
 services:
-  db:
-    image: mysql:8
-    container_name: database-google-ad-helper # phpMyAdminサービスのPMA_HOSTSに設定する
+  fastApi:
+    # コンテナ名をappに設定
+    container_name: "google-ad-helper-containers"
+    image: "google-ad-helper-image"
+    build:
+      context: .
+      dockerfile: containers/fast_api/local/Dockerfile
+    tty: true
+    working_dir: /app
+    volumes:
+      - ./python:/app
+      - ./containers/fast_api/requirements.txt:/tmp/requirements.txt
+    ports:
+      - "8000:80"
+    command: sh /tmp/entrypoint.sh
+    env_file:
+      - .env
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  batchRun:
+    # コンテナ名をappに設定
+    container_name: "google-ad-helper-batch-containers"
+    image: "google-ad-helper-batch-image"
+    build:
+      context: .
+      dockerfile: containers/batch_python/local/Dockerfile
+    tty: true
+    working_dir: /app
+    volumes:
+      - ./batch-runner:/app
+      - ./containers/batch_python/requirements.txt:/tmp/requirements.txt
+    ports:
+      - "8001:80"
+    command: sh /tmp/entrypoint.sh
+    env_file:
+      - .env
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  mysql:
+    image: mysql:5.7
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${ROOTPASS}
       MYSQL_DATABASE: ${DATABASE}
@@ -31,58 +73,18 @@ services:
     expose:
       - ${PORT}
 
-  fastApi:
-    # コンテナ名をappに設定
-    container_name: "google-ad-helper-containers"
-    image: "google-ad-helper-image"
-    build:
-      context: .
-      dockerfile: containers/fast_api/local/Dockerfile
-    tty: true
-    working_dir: /app
-    volumes:
-      - ./python:/app
-      - ./containers/fast_api/requirements.txt:/tmp/requirements.txt
-    ports:
-      - "8000:8000"
-    command: sh /tmp/entrypoint.sh
-    env_file:
-      - .env
-    depends_on:
-      db:
-        condition: service_healthy
-
-  nextjs:
-    container_name: "chat-gpt-management-nextjs-containers"
-    image: "chat-gpt-management-nextjs-containers"
-    build:
-      context: .
-      dockerfile: ./containers/nextjs/local/Dockerfile
-    working_dir: /var/www/html
-    volumes:
-      - ./nextjs:/var/www/html
-    tty: true
-    command: sh /tmp/entrypoint.sh
-    env_file:
-      - .env
-    ports:
-      - "3000:3000"
-
-  nginx:
-    container_name: "ecs-fargate-nginx-container"
-    image: "chat-gpt-management-nginx-image"
-    build:
-      context: .
-      dockerfile: ./containers/nginx/env/local/Dockerfile
-    working_dir: /var/www/html
-    volumes:
-      - ./containers/nginx/conf.d/local/default.conf:/etc/nginx/conf.d/default.conf
-    ports:
-      - "80:80"
-    depends_on:
-      - fastApi
-      - nextjs
-
-volumes:
-  db_data:
-  static:
+#  nextjs:
+#    container_name: "chat-gpt-management-nextjs-containers"
+#    image: "chat-gpt-management-nextjs-containers"
+#    build:
+#      context: .
+#      dockerfile: ./containers/nextjs/local/Dockerfile
+#    working_dir: /app
+#    volumes:
+#      - ./nextjs:/app
+#    tty: true
+#    command: npm run dev -- -p 80
+#    env_file:
+#      - .env
+#    ports:
+#      - "3000:80"

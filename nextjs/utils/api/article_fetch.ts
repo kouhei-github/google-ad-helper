@@ -2,11 +2,14 @@ import useSWR from "swr";
 
 type response = {
   description: string
+  story:  string
+  title:  string
+  tags: string[]
 }
 
 type Article = {
-  article?: response,
-  isLoading: boolean,
+  article?: response
+  isLoading: boolean
   isError: string
 }
 

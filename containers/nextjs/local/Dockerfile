@@ -1,15 +1,21 @@
-FROM node:18-alpine as builder
+FROM node:20.9-bullseye-slim
 
-WORKDIR /var/www/html
+# Set the working directory in the container
+WORKDIR /app
 
-COPY ./nextjs /var/www/html
-COPY --chmod=777 ./containers/nextjs/entrypoint.sh /tmp/entrypoint.sh
+# Copy the current directory contents into the container at /app
+COPY ./nextjs /app/
 
-RUN chmod +x /tmp/entrypoint.sh
+# Copy package.json and yarn.lock
+COPY ./nextjs/package.json ./nextjs/yarn.lock /app/
+
+# Install dependencies
 RUN yarn install
 
-RUN yarn build
+RUN npm run build
 
-EXPOSE 3000
+# Expose port 5173 to access the server
+EXPOSE 80
 
-CMD ["sh", "/tmp/entrypoint.sh"]
+CMD ["npm", "run", "start", "--", "-p", "80"]
+

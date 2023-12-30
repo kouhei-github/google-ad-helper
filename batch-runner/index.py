@@ -1,11 +1,6 @@
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
-from routes.index import (
-    auth,
-    health_check,
-    user,
-    seo_route,
-)
+from routes.index import dev_to_router
 
 from config.index import Base, engine
 
@@ -25,7 +20,4 @@ app.add_middleware(
 Base.metadata.create_all(bind=engine)
 
 # FastAPIアプリケーションにルーティングを追加します。
-app.include_router(auth)
-app.include_router(health_check)
-app.include_router(user)
-app.include_router(seo_route)
+app.include_router(dev_to_router)

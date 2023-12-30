@@ -10,7 +10,7 @@ from services.openai.gpt.model import GPTModelFacade
 from services.google.spread_sheet.spread_sheet_facade import SpreadSheetFacade
 from schemas.index import TokenDataSchema, ShowArticleResponseSchema
 from midlewares.index import get_current_bearer_token
-from models.index import User
+from models.index import Article, Tag, User
 
 
 seo_route = APIRouter(
@@ -118,15 +118,15 @@ async def search_volume(
     response_model=ShowArticleResponseSchema,
     summary="記事情報をスプレッドシートから取得する"
 )
-async def get_article_making_gpt(article_id: int):
-    print(article_id)
-    spread_sheet_facade = SpreadSheetFacade(
-        "1mjk98TSpRJ2ixsYfJ5rp4Zw0Pr8EeDV_YNS5VdO4jnM",
-        "read"
-    )
+async def get_article_making_gpt(article_id: int, db: Session = Depends(get_db),):
+    article: Article = db.query(Article).get(article_id)
 
-    articles = spread_sheet_facade.get_values("SEO")
-    if len(articles) < article_id or article_id == 0:
+    if article is None:
         return responses.JSONResponse(content="Not Found", status_code=404)
 
-    return ShowArticleResponseSchema(description=articles[article_id][2])
+    return ShowArticleResponseSchema(
+        description=article.description,
+        story=article.story,
+        title=article.title,
+        tags=[tag.name for tag in article.tags]
+    )

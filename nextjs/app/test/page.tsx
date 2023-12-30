@@ -18,11 +18,11 @@ export default function Home() {
   if (isError) return <div>load is Failed</div>
   if (isLoading) return <div>Loadin ...</div>
   if (typeof article === "undefined") return <div>load is Failed</div>
-  const html = markdownHtml(article.description);
+  const html = markdownHtml(article.story);
   return (
-    <div className={"w-11/12 md:w-[85%] mx-auto my-12 flex space-x-8 "}>
-      <Script src={"https://embed.zenn.studio/js/listen-embed-event.js"} />
-      <div
+    <main className={"w-11/12 md:w-[100%] mx-auto  my-12 flex space-x-8 "}>
+      <Script src={"https://embed.zenn.studio/js/listen-embed-event.js"}/>
+      <section
         // "znc"というクラス名を指定する
         className="znc md:w-[75%] w-[100%] bg-[#FFFFFF] p-8 rounded-xl"
         // htmlを渡す
@@ -30,7 +30,21 @@ export default function Home() {
           __html: html,
         }}
       />
-      <div className={"w-[25%] md:block hidden min-h-screen space-y-4"}>
+
+      <section className={"w-[25%] md:block hidden min-h-screen space-y-4"}>
+        <div className={"w-[300px] h-[275px] bg-white rounded-xl overflow-y-scroll px-4 pb-5"}>
+          <h3 className={"font-bold text-xl text-center my-6 border-b-2 border-gray-200"}>タグ</h3>
+          <div className={"space-y-3"}>
+            {article.tags.map((tag, index) => (
+              <div key={index} className={"underline underline-offset-2 text-blue-500 hover:text-blue-700"}>
+                <Link href={`/tags/${tag}`}>
+                  {tag}に関連する記事
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+
         <div className={"w-[300px] h-[275px] bg-white rounded-xl overflow-y-scroll px-4 pb-5"}>
           <h3 className={"font-bold text-xl text-center my-6 border-b-2 border-gray-200"}>おすすめの記事</h3>
           <div className={"space-y-3"}>
@@ -52,7 +66,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   )
 }

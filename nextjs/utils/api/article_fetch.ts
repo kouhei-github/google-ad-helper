@@ -18,9 +18,9 @@ const articleFetcher = async (url: string) => {
   return await result.json() as Promise<response>
 }
 
-export const useGetArticle = (article_id: number): Article => {
+export const useGetArticle = (articleId: number): Article => {
   const { data, error, isLoading} = useSWR(
-    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/seo/show/${article_id}`,
+    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/article/show/${articleId}`,
     articleFetcher
   )
 

@@ -19,6 +19,7 @@ class Article(Base):
     title = Column(String(100), unique=True)
     description = Column(String(200))
     dev_to_id = Column(Integer, unique=True)
+    og_image_url = Column(String(450), default="https://thepracticaldev.s3.amazonaws.com/i/6hqmcjaxbgbon8ydw93z.png")
     # tagsへのリレーション
     tags = relationship('Tag', secondary=article_tags_table, back_populates='articles')
     created_at = Column(DateTime(timezone=True), default=func.now())

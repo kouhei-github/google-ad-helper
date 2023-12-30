@@ -15,7 +15,7 @@ export const loginUserMoc = {
   id: 1,
   name: '永松',
   age: 28,
-  email: 'test@sample.com',
+  email: 'article@sample.com',
   token: 'aioaca80089av9-2948nioahuvbauudiandubua',
 }
 

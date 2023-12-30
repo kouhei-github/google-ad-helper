@@ -11,6 +11,7 @@ class SearchWordRequest(BaseModel):
     search_word: str
 
 class ShowArticleResponse(BaseModel):
+    id: int
     story: str
     description: str
     title: str

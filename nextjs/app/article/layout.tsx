@@ -1,4 +1,6 @@
 import type { Metadata } from 'next'
+import Link from "next/link";
+import {Header} from "@/app/article/[slug]/components/SidBar/Header";
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -14,6 +16,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={"w-full bg-[#EDF2F7]"}>
         <div className={"w-11/12 md:w-2/3 mx-auto"}>
+          <Header />
           {children}
         </div>
       </body>

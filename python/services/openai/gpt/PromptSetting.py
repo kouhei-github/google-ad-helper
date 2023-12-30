@@ -36,7 +36,7 @@ class PromptSetting:
         マークダウンのコードブロック内の言語を判別して、記載すること。
         (例):
         ```python
-        print("test")
+        print("article")
         ```
         日本語に翻訳した際、話し言葉でわかりやすい日本語で翻訳してください。
 

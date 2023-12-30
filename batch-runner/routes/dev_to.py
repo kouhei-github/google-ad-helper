@@ -8,6 +8,7 @@ from services.markdown.changer import ConvertUrlToMarkdown
 from services.openai.gpt.model import GPTModelFacade
 from models.index import Tag, Article
 import openai
+import re
 
 
 # /api/dev-to というプレフィックスと"Dev-To-Crawling"というタグのついたAPIRouterを作成します。
@@ -64,10 +65,15 @@ async def get_dev_to_latest_articles(
 
         answer+=f"<br><br>こちらの記事はdev.toの良い記事を日本人向けに翻訳しています。<br>[{article.get('url', '')}]({article.get('url', '')})"
 
+        title = article.get("title", "")
+        match = re.search(r'#\s*(.*?) -', answer)
+        if match:
+            title = match.group(1)
+
         article_model = Article(
-            story=answer,
+            story=answer.replace(" - DEVコミュニティ", ""),
             description=article.get("description", ""),
-            title=article.get("title", ""),
+            title=title,
             dev_to_id=article.get("id", ""),
         )
 
@@ -136,13 +142,18 @@ async def get_dev_to_popular_articles(
         answer = answer.replace("```markdown", "")
         answer+=f"<br><br>こちらの記事はdev.toの良い記事を日本人向けに翻訳しています。<br>[{article.get('url', '')}]({article.get('url', '')})"
 
-        article_model = Article(
-            story=answer,
-            description=article.get("description", ""),
-            title=article.get("title", ""),
-            dev_to_id=article.get("id", ""),
-        )
+        title = article.get("title", "")
+        match = re.search(r'#\s*(.*?) -', answer)
+        if match:
+            title = match.group(1)
 
+        article_model = Article(
+            story=answer.replace(" - DEVコミュニティ", ""),
+            description=article.get("description", ""),
+            title=title,
+            dev_to_id=article.get("id", ""),
+            og_image_url=article.get("social_image", "https://thepracticaldev.s3.amazonaws.com/i/6hqmcjaxbgbon8ydw93z.png")
+        )
         # タグのデータと記事のデータをDBに入れる
         for tag_name in article.get("tag_list", [""]):
             tag = db.query(Tag).filter(Tag.name == tag_name).one_or_none()
@@ -209,13 +220,17 @@ async def get_dev_to_popular_articles(
         answer = answer.replace("```markdown", "")
         answer+=f"<br><br>こちらの記事はdev.toの良い記事を日本人向けに翻訳しています。<br>[{article.get('url', '')}]({article.get('url', '')})"
 
-        article_model = Article(
-            story=answer,
-            description=article.get("description", ""),
-            title=article.get("title", ""),
-            dev_to_id=dev_to_id,
-        )
+        title = article.get("title", "")
+        match = re.search(r'#\s*(.*?) -', answer)
+        if match:
+            title = match.group(1)
 
+        article_model = Article(
+            story=answer.replace(" - DEVコミュニティ", ""),
+            description=article.get("description", ""),
+            title=title,
+            dev_to_id=article.get("id", ""),
+        )
         # タグのデータと記事のデータをDBに入れる
         for tag_name in article.get("tag_list", [""]):
             tag = db.query(Tag).filter(Tag.name == tag_name).one_or_none()

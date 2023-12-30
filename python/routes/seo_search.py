@@ -112,21 +112,3 @@ async def search_volume(
 
     # "query": "Create"というキーと値のペアを含むディクショナリを返します。これがこの関数の返り値です。
     return {"query": "Create"}
-
-@seo_route.get(
-    "/show/{article_id}",
-    response_model=ShowArticleResponseSchema,
-    summary="記事情報をスプレッドシートから取得する"
-)
-async def get_article_making_gpt(article_id: int, db: Session = Depends(get_db),):
-    article: Article = db.query(Article).get(article_id)
-
-    if article is None:
-        return responses.JSONResponse(content="Not Found", status_code=404)
-
-    return ShowArticleResponseSchema(
-        description=article.description,
-        story=article.story,
-        title=article.title,
-        tags=[tag.name for tag in article.tags]
-    )

@@ -57,7 +57,7 @@ docker context use default
 
 ## 4. ECS Fargateのデプロイ先のリージョンが合わない時
 ```shell
-# aws configure set test-dym.region ap-northeast-1
+# aws configure set article-dym.region ap-northeast-1
 aws configure set <プロファイル>.region ap-northeast-1
 ```
 

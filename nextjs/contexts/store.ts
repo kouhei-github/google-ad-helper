@@ -38,13 +38,13 @@ const storage =
 
 const rootReducer = combineReducers({
   user: userSlice.reducer,
-  
+
 })
 
 export type RootState = ReturnType<typeof rootReducer>
 
 const persistConfig = {
-  key: 'p-next-test',
+  key: 'p-next-article',
   version: 1,
   storage,
 }

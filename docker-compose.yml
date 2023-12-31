@@ -24,26 +24,26 @@ services:
       mysql:
         condition: service_healthy
 
-  batchRun:
-    # コンテナ名をappに設定
-    container_name: "google-ad-helper-batch-containers"
-    image: "google-ad-helper-batch-image"
-    build:
-      context: .
-      dockerfile: containers/batch_python/local/Dockerfile
-    tty: true
-    working_dir: /app
-    volumes:
-      - ./batch-runner:/app
-      - ./containers/batch_python/requirements.txt:/tmp/requirements.txt
-    ports:
-      - "8001:80"
-    command: sh /tmp/entrypoint.sh
-    env_file:
-      - .env
-    depends_on:
-      mysql:
-        condition: service_healthy
+#  batchRun:
+#    # コンテナ名をappに設定
+#    container_name: "google-ad-helper-batch-containers"
+#    image: "google-ad-helper-batch-image"
+#    build:
+#      context: .
+#      dockerfile: containers/batch_python/local/Dockerfile
+#    tty: true
+#    working_dir: /app
+#    volumes:
+#      - ./batch-runner:/app
+#      - ./containers/batch_python/requirements.txt:/tmp/requirements.txt
+#    ports:
+#      - "8001:80"
+#    command: sh /tmp/entrypoint.sh
+#    env_file:
+#      - .env
+#    depends_on:
+#      mysql:
+#        condition: service_healthy
 
   mysql:
     image: mysql:5.7

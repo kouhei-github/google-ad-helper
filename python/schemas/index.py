@@ -6,5 +6,6 @@ from .user import UserShow as UserShowSchema
 from .seo import (
     SearchVolume as SearchVolumeSchema,
     SearchWordRequest as SearchWordRequestSchema,
-    ShowArticleResponse as ShowArticleResponseSchema
+    ShowArticleResponse as ShowArticleResponseSchema,
+    TagResponse as TagResponseSchema
 )

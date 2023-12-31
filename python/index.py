@@ -6,6 +6,7 @@ from routes.index import (
     user,
     seo_route,
     article,
+    tag,
 )
 
 from config.index import Base, engine
@@ -31,3 +32,4 @@ app.include_router(health_check)
 app.include_router(user)
 app.include_router(seo_route)
 app.include_router(article)
+app.include_router(tag)

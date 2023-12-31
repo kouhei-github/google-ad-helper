@@ -17,3 +17,7 @@ class ShowArticleResponse(BaseModel):
     title: str
     ogp_image: str
     tags: List[str]
+
+class TagResponse(BaseModel):
+    id: int
+    name: str

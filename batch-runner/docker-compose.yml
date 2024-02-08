@@ -1,0 +1,90 @@
+# docker-composeのバージョンを指定
+version: "3.9"
+
+# db(MySQL),app(Django)のコンテナを作成
+services:
+  fastApi:
+    # コンテナ名をappに設定
+    container_name: "google-ad-helper-containers"
+    image: "google-ad-helper-image"
+    build:
+      context: .
+      dockerfile: containers/fast_api/local/Dockerfile
+    tty: true
+    working_dir: /app
+    volumes:
+      - ./python:/app
+      - ./containers/fast_api/requirements.txt:/tmp/requirements.txt
+    ports:
+      - "8000:80"
+    command: sh /tmp/entrypoint.sh
+    env_file:
+      - .env
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+#  batchRun:
+#    # コンテナ名をappに設定
+#    container_name: "google-ad-helper-batch-containers"
+#    image: "google-ad-helper-batch-image"
+#    build:
+#      context: .
+#      dockerfile: containers/batch_python/local/Dockerfile
+#    tty: true
+#    working_dir: /app
+#    volumes:
+#      - ./batch-runner:/app
+#      - ./containers/batch_python/requirements.txt:/tmp/requirements.txt
+#    ports:
+#      - "8001:80"
+#    command: sh /tmp/entrypoint.sh
+#    env_file:
+#      - .env
+#    depends_on:
+#      mysql:
+#        condition: service_healthy
+
+#  mysql:
+#    image: mysql:5.7
+#    restart: always
+#    environment:
+#      MYSQL_ROOT_PASSWORD: ${ROOTPASS}
+#      MYSQL_DATABASE: ${DATABASE}
+#      MYSQL_USER: ${USERNAME}
+#      MYSQL_PASSWORD: ${USERPASS}
+#      TZ: 'Asia/Tokyo'
+#      LC_ALL: 'ja_JP.UTF-8'
+#      LANG: "ja_JP.UTF-8"
+#    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+#    healthcheck:
+#      test: ["CMD", "mysqladmin", "ping"]
+#      interval: 10s
+#      timeout: 10s
+#      retries: 3
+#      start_period: 30s
+#    env_file:
+#      - .env
+#    volumes:
+#      - ./containers/db/data:/var/lib/mysql
+#      - ./containers/db/my.cnf:/etc/mysql/conf.d/my.cnf
+#    ports:
+#      - ${PORT}:3306
+#    expose:
+#      - ${PORT}
+
+#  nextjs:
+#    container_name: "chat-gpt-management-nextjs-containers"
+#    image: "chat-gpt-management-nextjs-containers"
+#    build:
+#      context: .
+#      dockerfile: ./containers/nextjs/local/Dockerfile
+#    working_dir: /app
+#    volumes:
+#      - ./nextjs:/app
+#    tty: true
+#    command: npm run dev -- -p 80
+#    env_file:
+#      - .env
+#    ports:
+#      - "3000:80"

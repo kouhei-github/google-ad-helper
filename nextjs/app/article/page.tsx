@@ -2,7 +2,7 @@
 import {useEffect, useState} from "react";
 import Link from "next/link";
 
-type response = {
+export type response = {
   id: number
   story: string
   description: string
@@ -47,7 +47,7 @@ export default function Home() {
         <div className="absolute top-0 h-[320px] bg-black w-full opacity-60"></div>
         <div className="absolute top-1/2 transform -translate-y-1/2 left-1/2-translate-x-1/2 text-center text-white w-full mx-auto">
           <h2 className="md:text-[32px] text-[18px]">
-            <span className="text-[#4DABF7]">"プログラミング"</span>に関する記事
+            <span className="text-[#4DABF7]">&quot;プログラミング&quot;</span>に関する記事
           </h2>
           <div className="md:text-[16px] text-[13px] leading-8 md:w-full w-11/12 mx-auto">
             <p>プログラミングに困ったらこちらの記事はチェックしてみましょう。</p>
@@ -60,9 +60,9 @@ export default function Home() {
               </Link>
             ))}
           </div>
-
         </div>
       </div>
+
       <h2 className={"text-center md:text-2xl text-[17px] md:my-6 my-2 bg-white py-3"}>記事一覧</h2>
       <section className={"md:grid-cols-3 md:grid md:gap-2.5"}>
         {article.map((data, index) => (

@@ -36,9 +36,10 @@ async def get_article_all(page=1, db: Session = Depends(get_db)):
     response_model=List[ShowArticleResponseSchema],
     summary="記事情報を最新順で取得する"
 )
-async def get_article_latest(db: Session = Depends(get_db)):
+async def get_article_latest(page=1, db: Session = Depends(get_db)):
     """
     引数
+        page (int, optional): ページ番号。デフォルトは1。表示する記事情報の一覧ページの番号を指定します。
         db (セッション)： データベースセッションオブジェクト
 
     戻り値
@@ -55,7 +56,7 @@ async def get_article_latest(db: Session = Depends(get_db)):
     例
         articles = get_article_latest(db)
     """
-    articles = db.query(Article).order_by(Article.created_at.desc()).limit(10).all()
+    articles = db.query(Article).order_by(Article.created_at.desc()).offset((int(page)-1)*10).limit(9).all()
 
     articles = [ShowArticleResponseSchema(ogp_image=article.og_image_url, id=article.id, description=article.description,story="",title=article.title,tags=[tag.name for tag in article.tags]) for article in articles]
 

@@ -13,7 +13,7 @@ type articleI = {
 
 export async function generateStaticParams() {
   // 一覧を取得する
-  const res  = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/article/all`, {next: {revalidate: false}})
+  const res  = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/article/all`, {next: {revalidate: 1800}})
   if (!res.ok) throw new Error("failed to fetch wine")
   const datas: {id: number}[] = await res.json()
 
@@ -40,7 +40,6 @@ async function getArticle(articleId: number): Promise<articleI&{latest: {title: 
   if (!res.ok) throw new Error("failed to fetch wine")
 
   const latest = {latest: await res.json() as {id: number, title: string, ogp_image: string, tags: string[]}[]}
-
   return { ...article, ...latest }
 }
 
@@ -49,7 +48,7 @@ const  JobDetailPage = async ({params: { slug }}: {params: {slug: number}}) => {
   const article = await getArticle(slug)
   const html = markdownHtml(article.story);
   return (
-    <main className={"w-[98%] md:w-[100%] mx-auto  my-12 flex md:flex-row flex-col md:space-x-8 space-y-5 md:space-y-0"}>
+    <main className={"w-[98%] md:w-[100%] mx-auto md:my-12 my-5 flex md:flex-row flex-col md:space-x-8 space-y-5 md:space-y-0"}>
       <Script src={"https://embed.zenn.studio/js/listen-embed-event.js"}/>
       <section
         // "znc"というクラス名を指定する

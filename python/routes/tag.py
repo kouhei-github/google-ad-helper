@@ -21,7 +21,7 @@ async def get_all_tags(page=1, db: Session =Depends(get_db)):
         List[TagResponseSchema]: タグ名のリスト。各タグはTagResponseSchemaオブジェクトで、idとnameのプロパティを持つ。
 
     """
-    items_per_page = 50  # 1ページあたりの表示件数
+    items_per_page = 200  # 1ページあたりの表示件数
     # calculating offset
     offset = (int(page) - 1) * items_per_page
     tags = db.query(Tag).limit(items_per_page).offset(offset)

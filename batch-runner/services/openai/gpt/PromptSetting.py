@@ -37,6 +37,8 @@ class PromptSetting:
         2. コードブロック内のプログラミン言語を判別する以外は、記事の内容を翻訳するだけで、あなたの言葉を入れないでください。(翻訳するだけに集中してください)
 
         3. マークダウンのコードブロック内のプログラミン言語を判別して、記載してください。
+
+        5. マークダウン内に画像があれば削除せずにそのまま使用してください
         (例: pythonの場合)
         ```python
         print("article")
@@ -65,6 +67,19 @@ class PromptSetting:
 
         func main() {
             http.ListenAndServe(":9000", nil)
+        }
+        ```
+
+        (例: typescriptの場合)
+        ```typescript
+        import { Controller, Get } from '@nestjs/common';
+
+        @Controller('cats')
+        export class CatsController {
+          @Get()
+          findAll(): string {
+            return 'This action returns all cats';
+          }
         }
         ```
 

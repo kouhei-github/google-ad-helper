@@ -1,0 +1,19 @@
+# docker-composeのバージョンを指定
+version: "3.9"
+
+# db(MySQL),app(Django)のコンテナを作成
+services:
+  fastApi:
+    # コンテナ名をappに設定
+    container_name: "google-ad-helper-containers"
+    image: "google-ad-helper-image"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    tty: true
+    working_dir: /app
+    ports:
+      - "8000:80"
+    command: sh /tmp/entrypoint.sh
+    env_file:
+      - .env

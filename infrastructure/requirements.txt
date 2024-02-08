@@ -1,0 +1,7 @@
+pulumi
+pulumi-aws
+python-dotenv
+ipaddress
+pulumi-awsx
+pulumi_aws_apigateway
+pulumi-docker>=4.3.2

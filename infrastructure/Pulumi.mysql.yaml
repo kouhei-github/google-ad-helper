@@ -1,0 +1,83 @@
+config:
+  aws:profile: geeksnipe-dev
+  aws:region: ap-northeast-1
+  geeksnipe:alb:
+    main:
+      name: main
+      port: 80
+      protocol: HTTP
+  geeksnipe:api-gateway:
+    main:
+      dns: api-gw.ourstaging.org
+      domain: api-gw
+      name: main
+      stage: dev
+  geeksnipe:app:
+    name: geeksnipe
+  geeksnipe:cognito:
+    user_pool:
+      main:
+        callback_urls:
+          - https://ourstaging.org
+        domain:
+          dns_record: auth
+          name: auth.ourstaging.org
+        name: main
+  geeksnipe:containers:
+    ecs:
+      applications:
+        - dockerfile_root_folder_path: "batch-runner"
+          name: geeksnipe_batch_runner
+        - dockerfile_root_folder_path: "python"
+          name: geeksnipe_python
+      clusters:
+        main:
+          name: main
+      task:
+        count: 2
+  geeksnipe:dns:
+    primary:
+      name: ourstaging.org
+  geeksnipe:env: dev
+  geeksnipe:iam:
+    groups:
+      - admin
+      - user
+    key_name: geeksnipe-dev-name-key
+    pgp_key: ''
+    users:
+      - geeksnipe-gateway-svc
+  geeksnipe:rds:
+    main:
+      database:
+        db_name: geeksnipe
+        password: myPassword
+        username: myusername
+      engine: mysql
+      instance_type: db.t2.micro
+      version: 8.0.35
+  geeksnipe:security-alb:
+    name: geeksnipe-dev-alb-name
+  geeksnipe:security-task:
+    name: geeksnipe-dev-task-name
+  geeksnipe:service:
+    min_task: 1
+    name: geeksnipe-dev-service
+    sv_name: geeksnipe-dev
+  geeksnipe:ssl-certs:
+    main:
+      alternative_names:
+        - ourstaging.org
+      domain: '*.ourstaging.org'
+      name: ourstaging.org
+  geeksnipe:task-definition:
+    containerPort: "80"
+    cpu: "512"
+    hostPort: "80"
+    memory: "1024"
+    name: geeksnipe-dev-task-def
+    sv_name: geeksnipe-dev
+  geeksnipe:vpc:
+    main:
+      cidr: 10.0.0.0/16
+      name: main-dev

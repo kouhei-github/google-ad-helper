@@ -1,0 +1,29 @@
+---
+name: geeksnipe-runner
+# secrets_manager:
+#   secret_arn: arn:aws:secretsmanager:ap-northeast-1:106255799570:secret:dev/geeksnipe-runner
+service:
+  alb:
+    listener_rule:
+      host: geeksnipe-runner
+      priority: 6 # ここを変更しないといけない
+  health_check:
+    healthy_threshold: 2
+    interval: 30
+    matcher: 200,302
+    path: /
+    timeout: 5
+    unhealthy_threshold: 5
+task:
+  container:
+    port: 80
+    secrets:
+      - PORT
+      - DB_MONGODB_URI
+      - AWS_DEFAULT_REGION
+      - AWS_BUCKET
+  cpu: 256
+  tag: latest
+  memory: 512
+s3:
+  bucket_name: geeksnipe-dev-runner-document

@@ -218,3 +218,5 @@ containers/db/*
 python/static
 venv
 .env
+
+infrastructure/

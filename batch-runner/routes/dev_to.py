@@ -57,6 +57,9 @@ async def get_dev_to_latest_articles(
         link = article.get("url", 0)
         convert_markdown = ConvertUrlToMarkdown.convert(link)
 
+        if len(convert_markdown) < 2000:
+            continue
+
         try:
             answer = await model.listen_markdown_prompt(convert_markdown)
         except openai.error.APIConnectionError:
@@ -135,6 +138,9 @@ async def get_dev_to_popular_articles(
         link = article.get("url", 0)
         convert_markdown = ConvertUrlToMarkdown.convert(link)
 
+        if len(convert_markdown) < 2000:
+            continue
+
         try:
             answer = await model.listen_markdown_prompt(convert_markdown)
         except openai.error.APIConnectionError:
@@ -212,6 +218,9 @@ async def get_dev_to_popular_articles(
         # URLに基づいてMarkdown形式のテキストを取得します。
         link = article.get("url", 0)
         convert_markdown = ConvertUrlToMarkdown.convert(link)
+
+        if len(convert_markdown) < 2000:
+            continue
 
         try:
             answer = await model.listen_markdown_prompt(convert_markdown)

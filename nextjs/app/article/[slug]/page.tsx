@@ -13,7 +13,7 @@ type articleI = {
 
 export async function generateStaticParams() {
   // 一覧を取得する
-  const res  = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/article/all`, {next: {revalidate: 1800}})
+  const res  = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/article/all`, {next: {revalidate: 60}})
   if (!res.ok) throw new Error("failed to fetch wine")
   const datas: {id: number}[] = await res.json()
 
@@ -34,7 +34,7 @@ async function getArticle(articleId: number): Promise<articleI&{latest: {title: 
 
   res  = await fetch(
     `${process.env.NEXT_PUBLIC_API_SERVER_URL}/article/latest`,
-    {next: {revalidate: 1800}}
+    {next: {revalidate: 60}}
   )
 
   if (!res.ok) throw new Error("failed to fetch wine")

@@ -5,7 +5,7 @@ import {Tag} from "@/app/article/[slug]/components/SidBar/Tag";
 
 export async function generateStaticParams() {
   // 一覧を取得する
-  const res  = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/tag/all`, {next: {revalidate: 1800}})
+  const res  = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/tag/all`, {next: {revalidate: 60}})
   if (!res.ok) throw new Error("failed to fetch wine")
   const datas: {id: number}[] = await res.json()
 
@@ -18,7 +18,7 @@ export async function generateStaticParams() {
 async function getArticle(tag: string): Promise<{title: string, id: number, ogp_image: string, tags: string[]}[]> {
   const res  = await fetch(
     `${process.env.NEXT_PUBLIC_API_SERVER_URL}/article/tag/${tag}`,
-    {next: {revalidate: 1800}}
+    {next: {revalidate: 60}}
   )
 
   if (!res.ok) throw new Error("failed to fetch wine")

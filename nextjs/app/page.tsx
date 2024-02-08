@@ -2,6 +2,7 @@
 import {useEffect, useState} from "react";
 import Link from "next/link";
 import {Tag} from "@/app/article/[slug]/components/SidBar/Tag";
+import {tag} from 'postcss-selector-parser'
 
 export default function Home() {
 
@@ -17,7 +18,9 @@ export default function Home() {
       setArticles(await result)
       let tags: string[] = []
       for (const article of await result) {
-        tags = tags.concat(article.tags)
+        article.tags.forEach((tag) => {
+          if (!tags.includes(tag)) tags.push(tag)
+        })
       }
       setRelatedArray(tags)
     }

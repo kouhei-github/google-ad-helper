@@ -6,8 +6,7 @@ export const Header = () => {
     <div className={"w-full bg-white p-3 flex items-center justify-between"}>
       <div className={"w-full flex items-center"}>
         <Link href={"/"} className={"w-max"}>
-          <img src={"https://dev-to-uploads.s3.amazonaws.com/uploads/logos/resized_logo_UQww2soKuUsjaOGNB38o.png"}
-               alt={"dev"} className={"w-11 h-8"}/>
+          <p className={"w-26 object-cover font-extrabold bg-black text-white h-8 flex items-center justify-center px-1"}>Geek Snipe</p>
         </Link>
         <div className={"relative ml-5 md:w-1/2 w-full mx-auto"}>
           <input type="text" placeholder={"Search..."}

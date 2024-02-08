@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 import {Header} from "@/app/article/[slug]/components/SidBar/Header";
 
 export const metadata: Metadata = {
-  title: '最新のWeb技術記事ならGeekSnipe |',
+  title: '最新のWeb技術記事ならGeekSnipe',
   description: '海外で人気のWeb技術記事を日本語に翻訳して公開！',
 }
 

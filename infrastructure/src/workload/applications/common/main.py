@@ -300,7 +300,7 @@ def generate_container_definitions(
                 {"name": "JWT_SECRET_KEY", "value": "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"},
                 {"name": "JWT_REFRESH_SECRET_KEY", "value": "P7Zm5PaLk6bje9AYgpA6Zw"},
                 {"name": "MY_ORIGIN", "value": "https://geeksnipe.com"},
-                {"name": "OPEN_AI_API", "value": "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"},
+                {"name": "OPEN_AI_API", "value": "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"},
                 {"name": "TYPE", "value": "service_account"},
                 {"name": "PROJECT_ID", "value": "pro-variety-402818"},
 

@@ -34,7 +34,7 @@ async def get_dev_to_latest_articles(
 
     """
     # dev.toから最新記事を取得するインスタンスを作成します。
-    dev_to_get_article_facade = GetArticlesInDevTo(f"https://dev.to/api/articles/latest{1 if page is None else page}")
+    dev_to_get_article_facade = GetArticlesInDevTo(f"https://dev.to/api/articles/latest?page={1 if page is None else page}")
     dev_to_get_article_facade.get_article()
 
     model = GPTModelFacade()
@@ -42,7 +42,7 @@ async def get_dev_to_latest_articles(
     count = 0
     for article in dev_to_get_article_facade.json:
         positive_reactions_count = article.get("positive_reactions_count", 0)
-        if positive_reactions_count < 5:
+        if positive_reactions_count < 1:
             continue
         if count > 3:
             break
@@ -118,7 +118,6 @@ async def get_dev_to_popular_articles(
     dev_to_get_article_facade.get_article()
 
     model = GPTModelFacade()
-    print(dev_to_get_article_facade.json)
     count = 0
     for article in dev_to_get_article_facade.json:
         positive_reactions_count = article.get("positive_reactions_count", 0)

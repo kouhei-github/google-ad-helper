@@ -3,7 +3,6 @@ import {useEffect, useState} from "react";
 import Link from "next/link";
 import {Tag} from "@/app/article/[slug]/components/SidBar/Tag";
 import { useRouter, useSearchParams} from 'next/navigation'
-import Script from 'next/script'
 
 export default function Home() {
 
@@ -87,7 +86,6 @@ export default function Home() {
         </section>
 
         <section>
-          <Script crossOrigin={"anonymous"} async src={"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3519272467638604"}/>
           <Tag tags={relatedArray} title={"関連する技術"}/>
         </section>
       </div>

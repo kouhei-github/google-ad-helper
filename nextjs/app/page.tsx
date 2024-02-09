@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import Link from "next/link";
 import {Tag} from "@/app/article/[slug]/components/SidBar/Tag";
 import {tag} from 'postcss-selector-parser'
+import {useParams, useRouter, useSearchParams} from 'next/navigation'
 
 export default function Home() {
 
@@ -10,7 +11,12 @@ export default function Home() {
     {title: "", id: 1, tags: [], ogp_image: ""}
   ])
   const [relatedArray, setRelatedArray] = useState<string[]>([])
-  const [page, setPage] = useState<number>(1)
+
+  const router = useRouter()
+  const params = useSearchParams()
+  const [page, setPage] = useState<number>(Number(params.get("page") ? params.get("page") : 1))
+
+
   useEffect(() => {
     const fetcher = async () => {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/article/latest?page=${page}`)
@@ -25,6 +31,7 @@ export default function Home() {
       setRelatedArray(tags)
     }
     fetcher()
+    router.push(`/?page=${page}`)
   }, [page]);
 
   const prev = () => {
